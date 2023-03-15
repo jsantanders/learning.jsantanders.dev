@@ -32,8 +32,8 @@ In each book folder, you can find the qmd files for each chapter and an images f
 
 ## Contributing
 
-f you have any feedback, suggestions, or fixes for problems that are wrong, please feel free to open an issue or pull request. Your contributions are welcome and greatly appreciated!
+If you have any feedback, suggestions, or fixes for problems that are wrong, please feel free to open an issue or pull request. Your contributions are welcome and greatly appreciated!
 
-### License
+## License
 
 All solutions of problems that I come up with is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/). However, the solutions are based on the book's problems, which are copyrighted by the book's author(s) in some cases. Please refer to the book's license for further details.
