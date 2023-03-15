@@ -1,0 +1,35 @@
+project:
+  type: book
+  output-dir: _book
+
+execute:
+  freeze: auto
+
+book:
+  title: "Book's problems and solutions"
+  reader-mode: true
+  author: "Jesus Santander"
+  date: today
+  page-footer:
+      left: |
+        Jesus Santander.
+      right: |
+        This guide was built with <a href="https://quarto.org/">Quarto</a>.
+  site-url: https://learning.jsantanders.dev
+  repo-url: https://github.com/jsantanders/learning.jsantanders.dev/
+  repo-branch: main
+  favicon: notebook.png
+  repo-actions: [edit, issue]
+  search: true
+  chapters:
+    - index.qmd
+
+    - part: Probability, Statistics, and Data
+      chapters:
+        - probability-statistics-and-data/probability.qmd
+
+format:
+  bookup-html:
+    toc: true
+    html-math-method: katex
+

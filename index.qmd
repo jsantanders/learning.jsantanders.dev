@@ -1,0 +1,32 @@
+---
+title: ""
+author: "Jesus Santander"
+date: today
+format:
+  bookup-html:
+    embed-fonts: false
+toc: true
+---
+
+## Introduction
+
+This website contains solutions to problems found in books I'm reading. Each book is in its own part, with the book's name as the part name. Inside each part, you'll find the solutions to the book's problems per chapter in individual sections.
+
+### Books
+
+- [Probability, Statistics, and Data: A Fresh Approach using R by Darrin Speegle and Bryan Clair](https://mathstat.slu.edu/~speegle/_book/preface.html).
+
+### Credits
+
+This site is based on the [quarto](https://quarto.org/) package. Using the theme [bookup](https://github.com/juba/bookup-html).
+
+### Who is this site for?
+
+This site is mostly for me, I want to keep track of the problems I solve and the solutions I come up with. However, if you find this repository useful, feel free to use it. If you find any errors, please let me know by opening an issue or submitting a pull request.
+
+### License
+
+All solutions of problems that I come up with is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/). However, the solutions are based on the book's problems, which are copyrighted by the book's author(s) in some cases. Please refer to the book's license for further details.
+
+
+

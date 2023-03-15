@@ -1,0 +1,754 @@
+---
+title: ""
+author: ""
+date: today
+format:
+  bookup-html:
+    embed-fonts: false
+toc: true
+---
+
+## Chapter 02: Probability
+
+### Problem 2.1
+
+**When rolling two dice, what is the probability that one die is twice the other?**
+
+Suppose  we have a red die and a green die. The event that one of them shows twice what the other shows is the union of
+
+a. the red die shows twice the number of what the green shows.
+b. the green die shows twice the number of what the red shows.
+
+If sides are numbererd starting with 1. These two event are mutually exclusive. So the probability of the event is the sum of the probabilities of the two events. 
+
+$$
+P(A \cup B) = P(A) + P(B) 
+$$
+
+$$
+P(A \cup B) = 2 \cdot \frac{1}{2} \cdot \frac{1}{6} 
+$$
+
+$$
+P(A \cup B) =  \frac{1}{6}
+$$
+
+we can simulate this experiment in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    die_1 <- sample(x = 1:6, size = 1, replace = TRUE)
+    die_2 <- sample(x = 1:6, size = 1, replace = TRUE)
+    (die_1 == 2 * die_2) | (die_2 == 2 * die_1)
+})
+mean(event)
+```
+
+### Problem 2.2
+
+**Consider an experiment where you roll two dice, and subtract the smaller value from the larger value (getting 0 in case of a tie).**
+
+a. What is the probability of getting 0?
+b. What is the probability of getting 4?
+
+#### Part (a)
+
+The probability of getting 0 is the probability of getting a tie. This is the probability of getting the same number on both dice. 
+
+$$
+E = \{(1,1), (2,2), (3,3), (4,4), (5,5), (6,6) \}
+$$ 
+
+and we have $6 \cdot 6 = 36$ possible outcomes. So: 
+
+$$
+P(E) = \frac{6}{36} = \frac{1}{6}
+$$
+
+we can simulate this experiment in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    die_1 <- sample(x = 1:6, size = 1, replace = TRUE)
+    die_2 <- sample(x = 1:6, size = 1, replace = TRUE)
+    die_1 == die_2
+})
+mean(event)
+```
+
+#### Part (b)
+
+The probability of getting 4 is the probability of getting a difference of 4.
+
+ $$
+ E = \{(1,5), (5,1), (2,6), (6,2) \}
+ $$
+
+and we have $6 \cdot 6 = 36$ possible outcomes. So:
+
+$$
+P(E) = \frac{4}{36} = \frac{1}{9}
+$$
+
+we can simulate this experiment in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    die_1 <- sample(x = 1:6, size = 1, replace = TRUE)
+    die_2 <- sample(x = 1:6, size = 1, replace = TRUE)
+    abs(die_1 - die_2) == 4
+})
+mean(event)
+```
+
+### Problem 2.3
+
+**A hat contains slips of paper numbered 1 through 6. You draw two slips of paper at random from the hat, without replacing the first slip into the hat.**
+
+a. Write out the sample space $S$ for this experiment.
+b. Write out the event $E$ "the sum of the numbers on the slips of paper is 4".
+c. Find $P(E)$.
+d. Let $F$ be the event "the larger number minus the smaller number is 0". What is $P(F)$?
+
+#### Part (a) 
+
+We can write the sample space as: 
+
+$$
+S = \{(1,2), (1,3), \cdots , (6,5) \}
+$$
+
+#### Part (b)
+
+We can write the event as:
+
+$$
+E = \{(1,3), (3,1) \}
+$$
+
+#### Part (c)
+
+We have $6 \cdot 5 = 30$ possible outcomes. So:
+
+$$
+P(E) = \frac{2}{30} = \frac{1}{15}
+$$ 
+
+we can simulate it in R as follows:
+
+```{r}
+event <- replicate(100000, {
+    hat <- sample(x = 1:6, size = 2, replace = FALSE)
+    sum(hat) == 4
+})
+mean(event)
+```
+
+#### Part (d)
+
+Since we cannot draw the same number twice:
+
+$$
+F = \emptyset
+$$
+
+$$
+P(F) = 0
+$$
+
+### Problem 2.4
+
+**Suppose there are two boxes and each contain slips of papers numbered 1-8. You draw one number at random from each box.**
+
+a. Estimate the probability that the sum of the numbers is 8.
+b. Estimate the probability that at least one of the numbers is a 2.
+
+#### Part (a)
+
+There are $8 \cdot 8 = 64$ possible outcomes. The number of outcomes where the sum is 8 is:
+
+$$ 
+E = \{(1,7), (2,6), \cdots, (7,1) \}
+$$ 
+and the probability is:
+
+$$
+P(E) = \frac{7}{64}
+$$
+
+We can simulate this experiment in R as follows:
+
+```{r}
+event <- replicate(100000, {
+    box_1 <- sample(x = 1:8, size = 1, replace = TRUE)
+    box_2 <- sample(x = 1:8, size = 1, replace = TRUE)
+    sum(box_1 + box_2) == 8
+})
+mean(event)
+```
+
+#### Part (b)
+
+Similarly, the number of outcomes where at least one of the numbers is 2 is:
+
+$$
+E = \{(1,2), (2,1), (2,2), (2,3), \cdots, (8,2) \}
+$$ 
+
+and the probability is: 
+
+$$
+P(E) = \frac{15}{64}
+$$
+
+We can simulate this experiment in R as follows:
+
+```{r}
+event <- replicate(100000, {
+    box_1 <- sample(x = 1:8, size = 1, replace = TRUE)
+    box_2 <- sample(x = 1:8, size = 1, replace = TRUE)
+    box_1 == 2 | box_2 == 2
+})
+mean(event)
+```
+
+### Problem 2.5
+
+**Suppose the proportion of M&M’s by color is:** 
+
+| Color   | Proportion |
+|---------|------------|
+| Yellow  | 0.14       |
+| Red     | 0.13       |
+| Orange  | 0.20       |
+| Brown   | 0.12       |
+| Green   | 0.20       |
+| Blue    | 0.21       |
+
+a. What is the probability that a randomly selected M&M is not green?
+b. What is the probability that a randomly selected M&M is red, orange, or yellow?
+c. Estimate the probability that a random selection of four M&M’s will contain a blue one.
+d. Estimate the probability that a random selection of six M&M’s will contain all six colors.
+
+
+#### Part (a)
+
+Using the law of complement, we have:
+
+$$
+P(\neg \text{G}) = 1 - P(\text{G}) = 0.80
+$$
+
+#### Part (b)
+
+We can use the law of addition to find the probability of getting red, orange, or yellow:
+
+$$
+P(\text{R} \cup \text{O} \cup \text{Y}) = P(\text{R}) + P(\text{O}) + P(\text{Y})
+$$
+
+$$
+P(\text{R} \cup \text{O} \cup \text{Y})  = 0.13 + 0.20 + 0.14 
+$$
+
+$$
+P(\text{R} \cup \text{O} \cup \text{Y})  =  0.47
+$$
+
+#### Part (c)
+
+By the law of complement the probability of not getting a blue is $1 - 0.21 = 0.79$ and the probability of not getting a blue in four selections is $(0.79)^4 = 0.39$. Then the probability of getting at least one blue in four selections is: 
+
+- E: at least one blue in four selections
+
+$$
+P(E) = 1 - P(\neg E) = 1 - 0.39 = 0.61
+$$
+
+We can simulate this experiment in R as follows:
+
+```{r}
+event <- replicate(100000, {
+    mms <- sample(x = c("yellow", "red", "orange", "brown", "green", "blue"),
+     size = 4, p = c(0.14, 0.13, 0.20, 0.12, 0.20, 0.21), replace = TRUE)
+    "blue" %in% mms
+})
+mean(event)
+```
+
+#### Part (d)
+
+The probability of selecting six M&M's that contain all six colors is (consdiering ordering):
+
+- E: All colors with an specific order
+$$
+P(E) = 0.14 \cdot 0.13 \cdots 0.21
+$$
+
+we need to calculate the total number of ways we can select six M&M's from a total of 6 colors, with a sample size of 6.
+That is 6!. Then the probability is:
+
+- F: All six colors no matter order
+
+$$
+P(F) = 6! \cdot  P(E) = 0.0132
+$$
+
+We can simulate this experiment in R as follows:
+
+```{r}
+event <- replicate(100000, {
+    mms <- sample(x = c("yellow", "red", "orange", "brown", "green", "blue"),
+     size = 6, p = c(0.14, 0.13, 0.20, 0.12, 0.20, 0.21), replace = TRUE)
+    length(unique(mms)) == 6
+})
+mean(event)
+```
+
+### Problem 2.6
+
+**With the distribution from Problem 2.5, suppose you buy a bag of M&M’s with 30 pieces in it.
+Estimate the probability of obtaining at least 9 Blue M&M’s and at least 6 Orange M&M’s in the bag.**
+
+::: {.callout-warning}
+Since I'm not quite sure on how to calculate this without the binomial distribution, lets go directly with the R simulation
+:::
+
+```{r}
+event <- replicate(100000, {
+    mms <- sample(x = c("yellow", "red", "orange", "brown", "green", "blue"),
+     size = 30, p = c(0.14, 0.13, 0.20, 0.12, 0.20, 0.21), replace = TRUE)
+    sum(mms == "blue") >= 9 & sum(mms == "orange") >= 6
+})
+mean(event)
+```
+### Problem 2.7
+
+**Blood types O, A, B, and AB have the following distribution in the United States:**
+
+| Type          | A    | AB     | B     | O     | 
+|---------------|------|--------|-------|-------|
+| Probability   | 0.40 | 0.04   | 0.11  | 0.45  |
+
+**What is the probability that two randomly selected people have the same blood type?**
+
+Since getting the same blood type is an independent event, we can calculate the probability of getting the same blood type by multiplying the probability of getting each blood type. That is:
+
+- E: Two randomly selected people have the same blood type
+
+$$
+P(E) =  0.40^2 + \cdots + 0.45^2 = 0.3762
+$$
+
+We can simulate this experiment in R as follows:
+
+```{r}
+event <- replicate(100000, {
+    person_1 <- sample(x = c("A", "AB", "B", "O"),
+     size = 1, p = c(0.40, 0.04, 0.11, 0.45), replace = TRUE)
+    person_2 <- sample(x = c("A", "AB", "B", "O"),
+     size = 1, p = c(0.40, 0.04, 0.11, 0.45), replace = TRUE)
+
+    person_1 == person_2
+})
+mean(event)
+```
+
+### Problem 2.8
+
+**Use simulation to estimate the probability that a 10 is obtained when two dice are rolled.**
+
+Besides the simulation, we can also calculate the probability of getting a 10. The event space is:
+$$
+E = \{(6,4), (5,5), (4,6)\}
+$$
+
+And the possible outcomes are $6 \cdot 6 = 36$. Then the probability of getting a 10 is:
+
+$$
+P(\text{10})  = \frac{3}{36} = 0.0833
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    dice_1 <- sample(x = 1:6, size = 1, replace = TRUE)
+    dice_2 <- sample(x = 1:6, size = 1, replace = TRUE)
+    dice_1 + dice_2 == 10
+})
+mean(event)
+
+```
+### Problem 2.9
+
+**Estimate the probability that exactly 3 heads are obtained when 7 coins are tossed.**
+
+Since it's a bit long to calculate this one by counting, lets cite and use the definition of the binomial probability
+
+::: {.callout-tip}
+Events where there are only two possible outcomes that we can classify as success or failure, and where the probability of success is known to us as $p$ are called binomial events. When we repeat such events several times, the probability to find $r$ successes in $n$ such repetitions can be calculated by using the expression:
+
+$$
+P(r) = \binom{n}{r} p^r (1-p)^{n-r}
+$$
+
+where $\binom{n}{r}$ is the binomial coefficient, which is the number of ways of selecting $r$ objects from a set of $n$ objects,
+where the order of selection does not matter.
+:::
+
+Knowing that, we can calculate the probability of getting exactly 3 heads in 7 tosses:
+
+- E: Exactly 3 heads
+$$
+P(E) = \binom{7}{3} (0.5)^3 (0.5)^{7-3} = 0.273
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    tosses <- sample(x = c("H", "T"), size = 7, replace = TRUE)
+    sum(tosses == "H") == 3
+})
+mean(event)
+```
+
+We can extend this question by asking what is the probability that at least 3 heads are obtained when 7 coins are tossed.
+To solve this problem we need to find the probabilities that $r$ could be $3,4,5,6,7$ to satisfy the condition "at least".
+
+- F: At least 3 heads
+
+$$
+P(F) = \sum_{r=3}^{7}  \binom{7}{r} (0.5)^r (0.5)^{7-r}
+$$
+
+| $r$         | $P(F)$                 |
+|-------------|----------------------------------------------|
+| for $r = 3$ | $\binom{7}{3} (0.5)^3 (0.5)^{4} = 0.2734375$ |
+| for $r = 4$ | $\binom{7}{4} (0.5)^4 (0.5)^{3} = 0.2734375$ |
+| for $r = 5$ | $\binom{7}{5} (0.5)^5 (0.5)^{2} = 0.1640625$ |
+| for $r = 6$ | $\binom{7}{6} (0.5)^6 (0.5)^{1} = 0.0546875$ |
+| for $r = 7$ | $\binom{7}{7} (0.5)^7 (0.5)^{0} = 0.0078125$ |
+
+$$
+P(F) = 0.273 + \cdots + 0.007 = 0.773
+$$
+
+We could also have calculated this by using the complement of the probability of getting at most 2 heads.
+
+- G: At most 2 heads
+$$
+P(F) = 1 - P(G) 
+$$
+
+$$
+P(F) = 1 - \sum_{r=0}^{2} \binom{7}{r} (0.5)^r (0.5)^{7-r}
+$$
+
+| $r$         | $P(\text{at most 2 heads})$                  |
+|-------------|----------------------------------------------|
+| for $r = 0$ | $\binom{7}{0} (0.5)^0 (0.5)^{7} = 0.0078125$ |
+| for $r = 1$ | $\binom{7}{1} (0.5)^1 (0.5)^{6} = 0.0546875$ |
+| for $r = 2$ | $\binom{7}{2} (0.5)^2 (0.5)^{5} = 0.1640625$ |
+
+$$
+P(F) = 1 - 0.225 = 0.773
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    tosses <- sample(x = c("H", "T"), size = 7, replace = TRUE)
+    sum(tosses == "H") >= 3
+})
+mean(event)
+```
+### Problem 2.10
+
+**Estimate the probability that the sum of five dice is between 15 and 20, inclusive.**
+
+We need to count the number of ways that we can roll five dice and get a sum between 15 and 20, and divide that by the total number of possible outcomes when rolling five dice. Since it is a bit long to count all possible combinations of $(a,b,c,d,e)$ where $a+b+c+d+e \in [15,20]$ We are going directly with the simulation. 
+
+```{r}
+event <- replicate(100000, {
+    dice <- sample(x = 1:6, size = 5, replace = TRUE)
+    sum(dice) >= 15 & sum(dice) <= 20
+})
+mean(event)
+```
+
+### Problem 2.11
+
+**Suppose a die is tossed repeatedly, and the cumulative sum of all tosses seen is maintained.  Estimate the probability that the cumulative sum ever is exactly 20. (Hint: the function cumsum computes the cumulative sums of a vector.)**
+
+Again, we are going directly wit the simulation due the overwhelming amount of combinations. We know that 20 is the maximum number of tosses that could have a cumulative sum of 20. So doing a sample of 20 rolls will be enough to get a good estimate.
+
+```{r} 
+event <- replicate(100000, {
+    tosses <- sample(x = 1:6, size = 20, replace = TRUE)
+    cumulative_sum <- cumsum(tosses)
+    any(cumulative_sum == 20)
+})
+mean(event)
+```
+
+### Problem 2.12
+
+**(Rolling two dice)**
+
+a. Simulate rolling two dice and adding their values. Perform 10,000 simulations and make a bar chart showing how many of each outcome occurred.
+
+b. You can buy trick dice, which look (sort of) like normal dice. One die has numbers 5, 5, 5, 5, 5, 5. The other has numbers 2, 2, 2, 6, 6, 6. Simulate rolling the two trick dice and adding their values. Perform 10,000 simulations and make a bar chart showing how many of each outcome occurred.
+
+c. Sicherman dice also look like normal dice, but have unusual numbers. One die has numbers 1, 2, 2, 3, 3, 4. The other has numbers 1, 3, 4, 5, 6, 8. Simulate rolling the two Sicherman dice and adding their values. Perform 10,000 simulations and make a bar chart showing how many of each outcome occurred. How does your answer compare to part (a)?
+
+
+#### Part (a)
+
+```{r}
+library(ggplot2)
+
+outcomes <- replicate(10000, {
+    dice_1 <- sample(x = 1:6, size = 1, replace = TRUE)
+    dice_2 <- sample(x = 1:6, size = 1, replace = TRUE)
+    dice_1 + dice_2
+})
+df <- data.frame(outcomes)
+ggplot(data = df, mapping = aes(outcomes), fill = "transparent") +
+geom_histogram(bins = 11, fill = "transparent", color = "black")
+```
+
+#### Part (b)
+
+```{r}
+library(ggplot2)
+
+outcomes <- replicate(10000, {
+    dice_1 <- sample(x = c(5, 5, 5, 5, 5, 5), size = 1, replace = TRUE)
+    dice_2 <- sample(x = c(2, 2, 2, 6, 6, 6), size = 1, replace = TRUE)
+    dice_1 + dice_2
+})
+df <- data.frame(outcomes)
+ggplot(data = df, mapping = aes(outcomes), fill = "transparent") +
+geom_histogram(bins = 11, fill = "transparent", color = "black")
+```
+
+#### Part (c)
+
+```{r}
+library(ggplot2)
+
+outcomes <- replicate(10000, {
+    dice_1 <- sample(x = c(1, 2, 2, 3, 3, 4), size = 1, replace = TRUE)
+    dice_2 <- sample(x = c(1, 3, 4, 5, 6, 8), size = 1, replace = TRUE)
+    dice_1 + dice_2
+})
+df <- data.frame(outcomes)
+ggplot(data = df, mapping = aes(outcomes), fill = "transparent") +
+geom_histogram(bins = 11, fill = "transparent", color = "black")
+```
+
+They have the same distribution.
+
+### Problem 2.13
+
+**In a room of 200 people (including you), estimate the probability that at least one other person will be born on the same day as you.**
+
+we can use the complement rule and calculate the probability that none of the other 199 people share the same birthday as me. Assuming that birthdays are uniformly distributed across all 365 days of the year (ignoring leap years), the probability that any given person in the room was not born on the same day as me is:
+
+- E: No one else has the same birthday as you
+
+$$
+P(E) = \left(\frac{1}{365}\right)^{199} = 0.58
+$$
+
+And the probability that at least one other person has the same birthday as you is:
+
+- F: At least one other person has the same birthday as you
+
+$$ 
+P(F) = 1 - P(E) = 0.42
+$$
+
+we can simulate this in R as follow:
+```{r}
+event <- replicate(100000, {
+    my_birthday <- sample(x = 1:365, size = 1, replace = TRUE)
+    other_people_birthdays <- sample(x = 1:365, size = 199, replace = TRUE)
+    any(other_people_birthdays == my_birthday)
+})
+mean(event)
+```
+
+### Problem 2.14
+
+**In a room of 100 people, estimate the probability that at least two people were not only born on the same day,
+but also during the same hour of the same day. (For example, both were born between 2 and 3.)**
+
+Assuming each person birth is uniformly distributed across all 24 hours of the day, and all 365 days of the year (ignoring leap years). The probability that any two people were born during the same hour of the same day is:
+
+- E: Two people were born during the same hour of the same day
+
+$$
+P(E) = \frac{1}{24} \cdot \frac{1}{365} = 0.0001
+$$
+
+Then the probability that none of the 100 people were born on the same day and during the same hour can be expressed as:
+
+F: None of the 100 people were born on the same day and during the same hour
+
+$$
+P(F) = \left(1 - P(E)\right)^{\binom{100}{2}} = 0.5683
+$$
+
+finally the probability that at least two people were born during the same hour of the same day is:
+
+- G: At least two people were born during the same hour of the same day
+
+$$
+P(G) = 1 - P(F) = 0.4316
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    birthdays <- sample(x = 1:(365 * 24), size = 100, replace = TRUE)
+    sum(duplicated(birthdays)) >= 1
+})
+mean(event)
+```
+
+### Problem 2.15
+
+**Assuming that there are no leap-day babies and that all birthdays are equally likely, estimate the probability that at least three people have the same birthday in a group of 50 people. (Hint: try using table.)**
+
+The probability of the birthday problem becomes increasingly complicated with more people, as the complementary event includes a larger number of possibilities that need to be accounted for. For example, for three people, the complementary event not only includes the possibility that all three birthdays are distinct, but also the possibilities of having one pair with the rest distinct, two pairs with the rest distinct, and so on. Calculating the exact value can be quite complicated.
+
+::: {.callout-warning}
+I'm going to use the Poisson approximation to calculate the probability of the birthday problem. The Poisson approximation is a good approximation for large values of $n$ and small values of $p$. In this case, $n = 50$ and $p = \frac{1}{365}$. However, the autor maybe want us to only simulate the problem, because at this chapter we are not supposed to know the Poisson approximation.
+:::
+
+One way to approach this is by considering every group of three people and calling it a "success" if they all share the same birthday.
+This can be modeled as a Poisson distribution, where the expected number of "successes" is the number of groups of three people times the probability that three people share the same birthday.
+
+The total number of successes is approximately Poisson with mean value $\frac{\binom{50}{3}}{365^{2}}$.
+Here $\binom{50}{3}$ is the number of triples, and $\frac{1}{365^{2}}$ is the chance that any particular triple is a success.
+The probability of getting at least one success is obtained from the Poisson distribution:
+
+- E: At least three people have the same birthday in a group of 50 people
+$$
+P(E) \approx 1 - \exp \left(- \frac{\binom{50}{3}}{365^{2}}\right) = 0.136
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    birthdays <- sample(x = 1:365, size = 50, replace = TRUE)
+    birthday_table <- table(birthdays)
+    length(birthday_table[birthday_table >= 3])
+})
+mean(event)
+```
+
+### Problem 2.16
+**If 100 balls are randomly placed into 20 urns, estimate the probability that at least one of the urns is empty.**
+
+The probability of choose an specific urn is $\frac{1}{20}$ then the probability of not choose an specific urn is $\frac{19}{20}$
+and the probability of not choose an specific urn 100 times is $\left(\frac{19}{20}\right)^{100}$. To get the probability of at least one urn is empty we need to multiply this by the number of urns:
+
+$$
+P(E) = \left(\frac{19}{20}\right)^{100} \cdot 20 = 0.1184
+$$
+
+We can simulate this in  R as follow:
+
+```{r}
+event  <- replicate(100000, {
+    selected_urns <- sample(x =  1:20, size = 100, replace = TRUE)
+    length(unique(selected_urns)) < 20
+})
+mean(event)
+```
+
+### Problem 2.17
+**A standard deck of cards has 52 cards, four each of 2,3,4,5,6,7,8,9,10,J,Q,K,A. In blackjack, a player gets two cards and adds their values. Cards count as their usual numbers, except Aces are 11 (or 1), while K, Q, J are all 10.**
+
+a. “Blackjack” means getting an Ace and a value 10 card. What is the probability of getting a blackjack?
+b. What is the probability of getting 19? (The probability that the sum of your cards is 19, using Ace as 11)
+
+#### Part (a)
+
+We can see it as follow:
+
+1) We're dealt an 11, and then a 10. (11 + 10 = 21)
+2) We're dealt a 10, and then an 11. (10 + 11 = 21)
+
+* Option 1:
+
+First event (getting an 11 card): There are 4 aces in a pack, and we've got a full pack (52 cards), so the probability of getting one of the aces first is 4 out of 52 $\frac{4}{52}$. Second event (getting a 10 card): There are 16 cards worth 10 in a pack (4 of each of 10, J, Q, K), but we've already got one of the cards from the back, so the probability of getting a 10 now is 16 out of 51 $\frac{16}{51}$. We want event 1 AND event 2 to happen, so we have to multiply the probabilities: $\frac{4}{52} \cdot \frac{16}{51} = \frac{64}{2652}$
+
+* Option 2:
+
+First event (getting a 10 card): There are 16 cards worth 10, as before, but this time we've got a full pack, so the probability is $\frac{16}{52}$. Second event (getting an 11 card): There are 4 aces, as before, but this time we've got rid of one card, so the probability is $\frac{4}{51}$. Again, we want event 1 AND event 2 to happen: $\frac{4}{51} \cdot \frac{16}{52} = \frac{64}{2652}$
+ 
+Now, we want either option 1 OR option 2to happen (because either way will give us a blackjack). 
+There's an OR there, so we've got to add the two probabilities together: 
+
+- E: Getting a blackjack
+$$
+P(E) = \frac{64}{2652} + \frac{64}{2652}
+$$
+
+$$
+P(E) = 0.048
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+deck <- c("2", "3", "4", "5", "6", "7", "8", "9", "10", "10", "10", "10", "A")
+event  <- replicate(100000, {
+    cards <- sample(x = deck, size = 2, replace = TRUE)
+    (cards[1] == "A" && cards[2] == "10") ||
+    (cards[1] == "10" && cards[2] == "A")
+})
+mean(event)
+```
+
+#### Part (b)
+
+We can see it as follow:
+
+1) We're dealt an 11, and then a 8. (11 + 8 = 19)
+2) We're dealt a 8, and then an 11. (11 + 8 = 19)
+3) We're dealt an 10 and a 9. (10 + 9 = 19)
+4) We're dealt a 9 and a 10. (9 + 10 = 19)
+
+So we can calculate the probability similarly as the previous problem:
+
+- E: Getting 19
+$$
+P(E) = 2 \cdot \frac{4}{52} \cdot \frac{4}{51} + 2 \cdot \frac{16}{52} \cdot \frac{4}{51}
+$$
+
+$$
+P(E) = 0.048
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+deck <- c("2", "3", "4", "5", "6", "7", "8", "9", "10", "10", "10", "10", "A")
+event  <- replicate(100000, {
+    cards <- sample(x = deck, size = 2, replace = TRUE)
+    (cards[1] == "9" && cards[2] == "10") ||
+    (cards[1] == "10" && cards[2] == "9") ||
+    (cards[1] == "A" && cards[2] == "8")  ||
+    (cards[1] == "8" && cards[2] == "A")
+})
+mean(event)
+```
