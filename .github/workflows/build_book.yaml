@@ -16,7 +16,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/install-quarto@v1
@@ -32,13 +32,16 @@ jobs:
         run: |
           quarto render
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        # If you're changing the branch from main,
-        # also change the `main` in `refs/heads/main`
-        # below accordingly.
-        if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_book
+          # Upload entire repository
+          path: './_book'
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
       
