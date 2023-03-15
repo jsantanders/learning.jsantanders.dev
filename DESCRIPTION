@@ -1,0 +1,39 @@
+Package: learningr
+Title: Book's problem and solutions
+Version: 0.1
+Authors@R: c(
+    person("Jesus", "Santander", , "jsantanders@outlook.com", role = "aut"),
+  )
+URL: https://github.com/jsantanders/learning.jsantanders.dev
+Depends: 
+    R (>= 3.1.0)
+Imports:
+    arrow,
+    babynames,
+    curl (>= 5.0.0),
+    dplyr,
+    duckdb,
+    gapminder,
+    ggrepel,
+    ggridges,
+    ggthemes,
+    hexbin,
+    janitor,
+    Lahman,
+    leaflet,
+    maps,
+    nycflights13,
+    openxlsx,
+    palmerpenguins,
+    repurrrsive (>= 1.1.0),
+    tidymodels,
+    tidyverse (>= 2.0.0),
+    writexl
+Suggests:
+    downlit,
+    jpeg,
+    knitr,
+    sessioninfo
+Remotes: tidyverse/dplyr
+Encoding: UTF-8
+License: CC NC ND 3.0
