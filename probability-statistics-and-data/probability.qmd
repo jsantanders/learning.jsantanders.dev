@@ -10,7 +10,7 @@ toc: true
 
 ## Chapter 02: Probability
 
-### Problem 2.1
+## Problem 2.1
 
 **When rolling two dice, what is the probability that one die is twice the other?**
 
@@ -44,14 +44,14 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.2
+## Problem 2.2
 
 **Consider an experiment where you roll two dice, and subtract the smaller value from the larger value (getting 0 in case of a tie).**
 
 a. What is the probability of getting 0?
 b. What is the probability of getting 4?
 
-#### Part (a)
+### Part (a)
 
 The probability of getting 0 is the probability of getting a tie. This is the probability of getting the same number on both dice. 
 
@@ -76,7 +76,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-#### Part (b)
+### Part (b)
 
 The probability of getting 4 is the probability of getting a difference of 4.
 
@@ -101,7 +101,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.3
+## Problem 2.3
 
 **A hat contains slips of paper numbered 1 through 6. You draw two slips of paper at random from the hat, without replacing the first slip into the hat.**
 
@@ -110,7 +110,7 @@ b. Write out the event $E$ "the sum of the numbers on the slips of paper is 4".
 c. Find $P(E)$.
 d. Let $F$ be the event "the larger number minus the smaller number is 0". What is $P(F)$?
 
-#### Part (a) 
+### Part (a) 
 
 We can write the sample space as: 
 
@@ -118,7 +118,7 @@ $$
 S = \{(1,2), (1,3), \cdots , (6,5) \}
 $$
 
-#### Part (b)
+### Part (b)
 
 We can write the event as:
 
@@ -126,7 +126,7 @@ $$
 E = \{(1,3), (3,1) \}
 $$
 
-#### Part (c)
+### Part (c)
 
 We have $6 \cdot 5 = 30$ possible outcomes. So:
 
@@ -144,7 +144,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-#### Part (d)
+### Part (d)
 
 Since we cannot draw the same number twice:
 
@@ -156,14 +156,14 @@ $$
 P(F) = 0
 $$
 
-### Problem 2.4
+## Problem 2.4
 
 **Suppose there are two boxes and each contain slips of papers numbered 1-8. You draw one number at random from each box.**
 
 a. Estimate the probability that the sum of the numbers is 8.
 b. Estimate the probability that at least one of the numbers is a 2.
 
-#### Part (a)
+### Part (a)
 
 There are $8 \cdot 8 = 64$ possible outcomes. The number of outcomes where the sum is 8 is:
 
@@ -187,7 +187,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-#### Part (b)
+### Part (b)
 
 Similarly, the number of outcomes where at least one of the numbers is 2 is:
 
@@ -212,7 +212,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.5
+## Problem 2.5
 
 **Suppose the proportion of M&M’s by color is:** 
 
@@ -231,7 +231,7 @@ c. Estimate the probability that a random selection of four M&M’s will contain
 d. Estimate the probability that a random selection of six M&M’s will contain all six colors.
 
 
-#### Part (a)
+### Part (a)
 
 Using the law of complement, we have:
 
@@ -239,7 +239,7 @@ $$
 P(\neg \text{G}) = 1 - P(\text{G}) = 0.80
 $$
 
-#### Part (b)
+### Part (b)
 
 We can use the law of addition to find the probability of getting red, orange, or yellow:
 
@@ -255,7 +255,7 @@ $$
 P(\text{R} \cup \text{O} \cup \text{Y})  =  0.47
 $$
 
-#### Part (c)
+### Part (c)
 
 By the law of complement the probability of not getting a blue is $1 - 0.21 = 0.79$ and the probability of not getting a blue in four selections is $(0.79)^4 = 0.39$. Then the probability of getting at least one blue in four selections is: 
 
@@ -276,7 +276,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-#### Part (d)
+### Part (d)
 
 The probability of selecting six M&M's that contain all six colors is (consdiering ordering):
 
@@ -305,7 +305,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.6
+## Problem 2.6
 
 **With the distribution from Problem 2.5, suppose you buy a bag of M&M’s with 30 pieces in it.
 Estimate the probability of obtaining at least 9 Blue M&M’s and at least 6 Orange M&M’s in the bag.**
@@ -322,7 +322,7 @@ event <- replicate(100000, {
 })
 mean(event)
 ```
-### Problem 2.7
+## Problem 2.7
 
 **Blood types O, A, B, and AB have the following distribution in the United States:**
 
@@ -354,7 +354,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.8
+## Problem 2.8
 
 **Use simulation to estimate the probability that a 10 is obtained when two dice are rolled.**
 
@@ -380,7 +380,7 @@ event <- replicate(100000, {
 mean(event)
 
 ```
-### Problem 2.9
+## Problem 2.9
 
 **Estimate the probability that exactly 3 heads are obtained when 7 coins are tossed.**
 
@@ -465,7 +465,7 @@ event <- replicate(100000, {
 })
 mean(event)
 ```
-### Problem 2.10
+## Problem 2.10
 
 **Estimate the probability that the sum of five dice is between 15 and 20, inclusive.**
 
@@ -479,7 +479,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.11
+## Problem 2.11
 
 **Suppose a die is tossed repeatedly, and the cumulative sum of all tosses seen is maintained.  Estimate the probability that the cumulative sum ever is exactly 20. (Hint: the function cumsum computes the cumulative sums of a vector.)**
 
@@ -494,7 +494,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.12
+## Problem 2.12
 
 **(Rolling two dice)**
 
@@ -505,7 +505,7 @@ b. You can buy trick dice, which look (sort of) like normal dice. One die has nu
 c. Sicherman dice also look like normal dice, but have unusual numbers. One die has numbers 1, 2, 2, 3, 3, 4. The other has numbers 1, 3, 4, 5, 6, 8. Simulate rolling the two Sicherman dice and adding their values. Perform 10,000 simulations and make a bar chart showing how many of each outcome occurred. How does your answer compare to part (a)?
 
 
-#### Part (a)
+### Part (a)
 
 ```{r}
 library(ggplot2)
@@ -520,7 +520,7 @@ ggplot(data = df, mapping = aes(outcomes), fill = "transparent") +
 geom_histogram(bins = 11, fill = "transparent", color = "black")
 ```
 
-#### Part (b)
+### Part (b)
 
 ```{r}
 library(ggplot2)
@@ -535,7 +535,7 @@ ggplot(data = df, mapping = aes(outcomes), fill = "transparent") +
 geom_histogram(bins = 11, fill = "transparent", color = "black")
 ```
 
-#### Part (c)
+### Part (c)
 
 ```{r}
 library(ggplot2)
@@ -552,7 +552,7 @@ geom_histogram(bins = 11, fill = "transparent", color = "black")
 
 They have the same distribution.
 
-### Problem 2.13
+## Problem 2.13
 
 **In a room of 200 people (including you), estimate the probability that at least one other person will be born on the same day as you.**
 
@@ -582,7 +582,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.14
+## Problem 2.14
 
 **In a room of 100 people, estimate the probability that at least two people were not only born on the same day,
 but also during the same hour of the same day. (For example, both were born between 2 and 3.)**
@@ -621,7 +621,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.15
+## Problem 2.15
 
 **Assuming that there are no leap-day babies and that all birthdays are equally likely, estimate the probability that at least three people have the same birthday in a group of 50 people. (Hint: try using table.)**
 
@@ -654,7 +654,7 @@ event <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.16
+## Problem 2.16
 **If 100 balls are randomly placed into 20 urns, estimate the probability that at least one of the urns is empty.**
 
 The probability of choose an specific urn is $\frac{1}{20}$ then the probability of not choose an specific urn is $\frac{19}{20}$
@@ -674,13 +674,13 @@ event  <- replicate(100000, {
 mean(event)
 ```
 
-### Problem 2.17
+## Problem 2.17
 **A standard deck of cards has 52 cards, four each of 2,3,4,5,6,7,8,9,10,J,Q,K,A. In blackjack, a player gets two cards and adds their values. Cards count as their usual numbers, except Aces are 11 (or 1), while K, Q, J are all 10.**
 
 a. “Blackjack” means getting an Ace and a value 10 card. What is the probability of getting a blackjack?
 b. What is the probability of getting 19? (The probability that the sum of your cards is 19, using Ace as 11)
 
-#### Part (a)
+### Part (a)
 
 We can see it as follow:
 
@@ -719,7 +719,7 @@ event  <- replicate(100000, {
 mean(event)
 ```
 
-#### Part (b)
+### Part (b)
 
 We can see it as follow:
 
@@ -752,3 +752,237 @@ event  <- replicate(100000, {
 })
 mean(event)
 ```
+
+## Problem 2.18
+
+**Deathrolling in World of Warcraft works as follows. Player 1 tosses a 1000-sided die. Say they get $x_{1}$. Then player 2 tosses a die with $x_{1}$ sides on it. Say they get  $x_{2}$. Player 1 tosses a die with $x_{2}$ sides on it. This pattern continues until a player rolls a 1. The player who loses is the player who rolls a 1. Estimate via simulation the probability that a 1 will be rolled on the 4th roll in deathroll.**
+
+```{r}
+event <- replicate (100000, {
+    x1 <- sample(x = 1:1000, size = 1, replace = TRUE)
+    x2 <- sample(x = 1:x1, size = 1, replace = TRUE)
+    x3 <- sample(x = 1:x2, size = 1, replace = TRUE)
+    x4 <- sample(x = 1:x3, size = 1, replace = TRUE)
+
+    x4 == 1
+})
+mean(event)
+```
+
+## Problem 2.19
+
+**In the game of Scrabble, players make words using letter tiles. The data set `fosdata::scrabble` contains all 100 tiles. Estimate the probability that a player’s first seven tiles contain no vowels. (Vowels are A, E, I, O, and U.)**
+
+Letter tiles in Scrabble are distributed as follow:
+
+| Frequency | Letters                                 |
+|-----------|-----------------------------------------|
+| 1         | Q, Z, J, X, K                           |
+| 2         | B, C, F, H, M, P, V, W, Y, (black tile) |
+| 3         | G                                       |
+| 4         | D, L, S, U                              |
+| 6         | N, R, T                                 |
+| 8         | O                                       |
+| 9         | A, I                                    |
+| 12        | E                                       |
+
+The total number of vowels is:
+
+$$
+N_{\text{vowels}} = 9 + 12 + 9 + 8 + 4 = 42
+$$
+
+That means there is a total of 58 non vowels in the scrabble set, so the probability of getting no vowels is:
+
+$$
+P(E) = \frac{58\cdot 57 \cdots 52}{100 \cdot 99 \cdots 94}
+$$
+
+$$
+P(E) = 0.019
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+library(fosdata)
+event <- replicate(100000, {
+    tiles <- sample(x = fosdata::scrabble$piece, size = 7, replace = FALSE)
+    !any(tiles %in% c("A", "E", "I", "O", "U"))
+})
+
+mean(event)
+```
+
+## Problem 2.20
+
+**Two dice are rolled.**
+
+a. What is the probability that the sum of the numbers is exactly 10?
+b. What is the probability that the sum of the numbers is at least 10?
+c. What is the probability that the sum of the numbers is exactly 10, given that it is at least 10?
+
+### Part (a)
+
+The probability of getting a 10 is:
+
+$$
+E = \{ (6,4), (4,6), (5,5) \}
+$$
+
+$$
+P(E) = \frac{3}{36} = 0.083
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    dice1 <- sample(x = 1:6, size = 1, replace = TRUE)
+    dice2 <- sample(x = 1:6, size = 1, replace = TRUE)
+    dice1 + dice2 == 10
+})
+mean(event)
+```
+
+### Part (b)
+
+The probability of getting a 10 or more is:
+
+$$
+E = \{ (6,6), (6,5), \cdots, (5,5) (4,6)\}
+$$
+
+$$
+P(E) = \frac{6}{36} = 0.167
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    dice1 <- sample(x = 1:6, size = 1, replace = TRUE)
+    dice2 <- sample(x = 1:6, size = 1, replace = TRUE)
+    dice1 + dice2 >= 10
+})
+mean(event)
+```
+
+### Part (c)
+
+- A: The sum of the numbers is exactly 10
+- B: The sum of the numbers is at least 10
+
+$$
+P(A|B) = \frac{P(A \cap B)}{P(B)}
+$$
+
+$$
+P(A|B) = \frac{\frac{3}{36}}{\frac{6}{36}} = \frac{1}{2} 
+$$
+
+
+## Problem 2.21
+
+**A hat contains six slips of paper with the numbers 1 through 6 written on them. Two slips of paper are drawn from the hat (without replacing), and the sum of the numbers is computed.**
+
+a. What is the probability that the sum of the numbers is exactly 10?
+b. What is the probability that the sum of the numbers is at least 10?
+c. What is the probability that the sum of the numbers is exactly 10, given that it is at least 10?
+
+### Part (a)
+
+The probability of getting a 10 is:
+
+$$
+E = \{ (6,4), (4,6) \}
+$$
+
+And we have 6 (first draw) times 5 (second draw) = 30 ways to draw two slips of paper.
+
+$$
+P(E) = \frac{2}{30} = 0.067
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    slips <- sample(x = 1:6, size = 2, replace = FALSE)
+    sum(slips) == 10
+})
+mean(event)
+```
+
+### Part (b)
+
+The probability of getting a 10 or more is:
+
+$$
+E = \{ (4,6), (5,6), (6, 4), (6,5)\}
+$$
+
+As like before,
+
+$$
+P(E) = \frac{4}{30} = 0.133
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+    slips <- sample(x = 1:6, size = 2, replace = FALSE)
+    sum(slips) >= 10
+})
+mean(event)
+```
+
+### Part (c)
+
+- A: The sum of the numbers is exactly 10
+- B: The sum of the numbers is at least 10
+
+$$
+P(A|B) = \frac{\frac{2}{30}}{\frac{4}{30}} = \frac{1}{2}
+$$
+
+::: {.callout-warning}
+Note that $P(A \cap B) = P(A)$ in this and the previous case beacuse "exactly 10" is a subset of "at least 10".
+It is not the general case.
+:::
+
+## Problem 2.22
+
+**Roll two dice, one white and one red. Consider these events:**
+
+* $A$: The sum is 7.
+* $B$: The white die is odd.
+* $C$: The red die has a larger number showing than the white.
+* $D$: The dice match (doubles).
+
+a. Wich pair(s) of events are disjoint (events $A$ and $B$ are disjoint if $A \cap B = \emptyset$ )?
+b. Which pair(s) are independent?
+c. Which pair(s) are neither disjoint nor independent?
+
+### Part (a)
+
+The following pairs are disjoint:
+
+- $A$ and $D$: None of doubles can sum to 7.
+- $C$ and $D$: None of doubles can have a larger number than the other.
+
+### Part (b)
+
+The following pairs are independent:
+
+- $A$ and $B$: The sum of the dice is independent of the parity of the white die.
+- $A$ and $C$: The sum of the dice is independent of the relative size of the dice.
+- $B$ and $D$: The parity of the white die is independent of the dice matching.
+
+### Part (c)
+
+The following pairs are neither disjoint nor independent:
+
+- $B$ and $C$: If the red dice has a larger number than the white, we can only get odd numbers below that number. For example, if the red dice is 4, the white dice can only be 1 or 3. That means $P(A \cup B) \neq P(A) \cdot P(B)$ so the events are not independent.
+but also they are not disjoint because both events can happen at the same time.

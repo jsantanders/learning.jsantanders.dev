@@ -7,5 +7,9 @@ Authors@R: c(
 URL: https://github.com/jsantanders/learning.jsantanders.dev
 Depends: 
     R (>= 3.1.0)
+Imports:
+ remotes,
+Remotes:
+  peegled/fosdata,
 Encoding: UTF-8
 License: CC NC ND 3.0
