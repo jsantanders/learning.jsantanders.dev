@@ -1,7 +1,7 @@
 ---
 title: ""
 author: ""
-date: today
+date: "2023-02-15"
 format:
   bookup-html:
     embed-fonts: false
@@ -14,24 +14,20 @@ toc: true
 
 **When rolling two dice, what is the probability that one die is twice the other?**
 
-Suppose  we have a red die and a green die. The event that one of them shows twice what the other shows is the union of
+Besides the classical way of enumerating all events outcomes, we can also tackle this problem in the following way:
 
-a. the red die shows twice the number of what the green shows.
-b. the green die shows twice the number of what the red shows.
+let's consider two dice - one black and one white. The event that one die shows twice what the other die shows can be thought of as the union of two events: either the black die shows twice what the white die shows (Event A), or the white die shows twice what the black die shows (Event B). These two events are mutually exclusive, so the probability of either event happening is the sum of the probabilities of each event happening.
 
-If sides are numbererd starting with 1. These two event are mutually exclusive. So the probability of the event is the sum of the probabilities of the two events. 
+Now, let's suppose we roll the black die first and then the white die. If the black die shows an odd number, then we know that Event A cannot happen. However, if the black die shows an even number, there is exactly one number on the white die that will result in Event A happening. Since there are n possible numbers on a die (assuming n is even), the probability of Event A happening is $\frac{1}{2} \cdot \frac{1}{n}$.
 
-$$
-P(A \cup B) = P(A) + P(B) 
-$$
+By symmetry, the probability of Event B happening is also $\frac{1}{2} \cdot \frac{1}{n}$. Therefore, the probability of either Event A or Event B happening is $P(A \cup B) = 2 \cdot \frac{1}{2} \cdot \frac{1}{n}$.
 
-$$
-P(A \cup B) = 2 \cdot \frac{1}{2} \cdot \frac{1}{6} 
-$$
+comming back to our particular case, it means:
 
 $$
-P(A \cup B) =  \frac{1}{6}
+P(E) = 2 \cdot \frac{1}{2} \cdot \frac{1}{6} = \frac{1}{6}
 $$
+
 
 we can simulate this experiment in R as follow:
 
@@ -736,7 +732,7 @@ P(E) = 2 \cdot \frac{4}{52} \cdot \frac{4}{51} + 2 \cdot \frac{16}{52} \cdot \fr
 $$
 
 $$
-P(E) = 0.048
+P(E) = 0.060
 $$
 
 We can simulate this in R as follow:
@@ -984,5 +980,593 @@ The following pairs are independent:
 
 The following pairs are neither disjoint nor independent:
 
-- $B$ and $C$: If the red dice has a larger number than the white, we can only get odd numbers below that number. For example, if the red dice is 4, the white dice can only be 1 or 3. That means $P(A \cup B) \neq P(A) \cdot P(B)$ so the events are not independent.
+- $B$ and $C$: If the red dice has a larger number than the white, we can only get odd numbers below that number. For example, if the red dice is 4, the white dice can only be 1 or 3. That means $P(A \cap B) \neq P(A) \cdot P(B)$ so the events are not independent.
 but also they are not disjoint because both events can happen at the same time.
+
+
+## Problem 2.23
+
+**Suppose you do an experiment where you select ten people at random and ask their birthdays.**
+
+Here are three events:
+
+* $A$: all ten people were born in February.
+* $B$: the first person was born in February.
+* $C$: The second person was born in January.
+
+a. Which pair(s) of events are disjoint, if any?
+b. Which pair(s) are independent, if any?
+c. What is $P(A | B)$?
+
+### Part (a)
+
+The following pairs are disjoint:
+
+- $A$ and $C$: If all ten people were born in February, the second person cannot be born in January.
+
+### Part (b)
+
+The following pairs are independent:
+
+- $B$ and $C$: The first person's birthday is independent of the second person's birthday.
+
+### Part (c)
+
+It means the probability of all ten people being born in February given that the first person was born in February. Given that $A \subset B$ we can express it as:
+$$
+P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A)}{P(B)}
+$$
+
+$$
+P(A|B) = \frac{\left(\frac{1}{12}\right)^{10}}{\frac{1}{12}} = 1.93e-10
+$$
+
+## problem 2.24
+
+**Let $A$ and $B$ be events. Show that $P(A \cup B | B) = 1$ **.
+ 
+ $$
+ P(A \cup B | B) = \frac{P((A \cup B) \cap B)}{P(B)} = \frac{P(B)}{P(B)} = 1
+ $$
+
+## Problem 2.25
+
+**In an experiment where you toss a fair coin twice, define events:**
+
+* $A$: The first toss is heads.
+* $B$: The second toss is heads.
+* $C$: Both tosses are the same.
+
+Show that $A$ and $B$ are independent. Show that $A$ and $C$ are independent. Show that $B$ and $C$ are independent. Show that $A$, $B$, and $C$ are not mutually independent.
+
+
+To show that $A$ and $B$ are independent, we need to show that $P(A \cap B) = P(A) \cdot P(B)$.
+
+- $A \cap B$: The first toss is heads and the second toss is heads.
+- $A \cap C$: The first toss is heads and the second toss is heads.
+- $B \cap C$: The first toss is heads and the second toss is heads.
+- $A \cap B \cap C$: The first toss is heads and the second toss is heads.
+
+We can define the sample space as:
+$$
+S = \{(H,H), (H, T), (T, H), (T,T) \}
+$$
+
+And the events as:
+
+$$
+A = \{(H,H), (H, T)\}
+$$
+
+$$
+B = \{(H,H), (T, H)\}
+$$
+
+$$
+C = \{(H,H), (T, T)\}
+$$
+
+And the intersections as:
+
+$$
+A \cap B = A \cap C = B \cap C = \{(H,H)\}
+$$
+
+And the probabilities could be calculated as:
+
+$$
+P(A \cap B) = P(A \cap C) = P(B \cap C) = \frac{1}{4}
+$$
+
+$$
+P(A) = P(B) = P(C) = \frac{2}{4} = \frac{1}{2}
+$$
+
+
+- $A$ and $B$ are independent:
+
+$$
+P(A \cap B) = P(A) \cdot P(B) 
+$$
+
+$$
+\frac{1}{4} = \frac{1}{2} \cdot \frac{1}{2}
+$$
+
+- $A$ and $C$ are independent:
+
+$$
+P(A \cap C) = P(A) \cdot P(C)
+$$
+
+$$
+\frac{1}{4} = \frac{1}{2} \cdot \frac{1}{2}
+$$
+
+- $B$ and $C$ are independent:
+
+$$
+P(B \cap C) = P(B) \cdot P(C)
+$$
+
+$$
+\frac{1}{4} = \frac{1}{2} \cdot \frac{1}{2}
+$$
+
+- $A$, $B$, and $C$ are not mutually independent:
+
+$$
+P(A \cap B \cap C) = P(A) \cdot P(B) \cdot P(C)
+$$
+
+$$
+\frac{1}{4} \neq \frac{1}{2} \cdot \frac{1}{2} \cdot \frac{1}{2}
+$$
+
+
+## Problem 2.26
+
+**Suppose a die is tossed three times. Let $A$ be the event "the first toss is a 5", let $B$ be the event "the first toss is the largest number rolled" (the "largest" can be a tie). Determine, via simulation or otherwise, whether $A$ and $B$ are independent.**
+
+```{r}
+event_a_b <- replicate(100000, {
+  rolls <- sample(x = 1:6, size = 3, replace = TRUE)
+  a <- rolls[1] == 5
+  b <- rolls[1] == max(rolls)
+  a && b
+})
+
+a_b <- mean(event_a_b)
+
+event_a <- replicate(100000, {
+  rolls <- sample(x = 1:6, size = 3, replace = TRUE)
+  rolls[1] == 5
+})
+
+a <- mean(event_a)
+
+event_b <- replicate(100000, {
+  rolls <- sample(x = 1:6, size = 3, replace = TRUE)
+  rolls[1] == max(rolls)
+})
+
+b <- mean(event_b)
+
+print(paste("P(A and B):", a_b))
+print(paste("P(A) * P(B):", a * b))
+```
+
+As we can see, the probability of $A \cap B$ is not equal to the probability of $A$ times the probability of $B$. Therefore, they are not independent.
+
+## Problem 2.27
+
+**Suppose you have two coins that land with heads facing up with common probability $p$ where $0 < p < 1$. One coin is red and the other is white. You toss both coins. Find the probability that the red coin is heads, given that the red coin and the white coin are different. Your answer will be in terms of $p$**
+
+- A: red coin is heads
+- B: white coin is heads
+- C: red coin and white coin are different (i.e., one shows heads and the other shows tails)
+
+We want to find $P(A|C)$. We can express this probability in terms of conditional probabilities:
+
+$$
+P(A|C) = \frac{P(A \cap C)}{P(C)}
+$$
+
+We know that $P(A) = P(B) = p$ and $P(C) = 2p(1-p)$, since there are two ways in which the coins can be different (red heads, white tails and red tails, white heads), and each of these ways has probability $p(1-p)$. For $P(A \cap C)$ we can use the fact that $A \cap C$ means the red coin is heads and the white coin is tails, and there is only one way in which this can happen, so $P(A \cap C) = p(1-p)$.
+
+$$
+P(A|C) = \frac{p(1-p)}{2p(1-p)} = \frac{1}{2}
+$$
+
+we can simulate this experiment to verify our result:
+
+```{r}
+p <- runif(n = 1, min = 0, max = 1)
+event_a_and_c <- replicate(100000, {
+    red <- sample(x = c("H", "T"), size = 1, replace = TRUE, prob = c(p, 1-p))
+    white <- sample(x = c("H", "T"), size = 1, replace = TRUE, prob = c(p, 1-p))
+    red == "H" && white != red
+})
+
+event_c <- replicate(100000, {
+    red <- sample(x = c("H", "T"), size = 1, replace = TRUE, prob = c(p, 1-p))
+    white <- sample(x = c("H", "T"), size = 1, replace = TRUE, prob = c(p, 1-p))
+    white != red
+})
+
+prob_a_and_c <- mean(event_a_and_c)
+prob_c <- mean(event_c)
+prob_a_and_c / prob_c
+```
+
+## Problem 2.28
+
+**Bob Ross was a painter with a PBS television show, "The Joy of Painting," that ran for 11 years.**
+
+a. 91% of Bob’s paintings contain a tree and 85% contain two or more trees. What is the probability that he painted a second tree, given that he painted a tree?
+
+b. 18% of Bob’s paintings contain a cabin. Given that he painted a cabin, there is a 35% chance the cabin is on a lake. What is the probability that a Bob Ross painting contains both a cabin and a lake?
+
+### Part (a)
+
+We want to find $P(B|A)$, where $A$ is the event "Bob painted a tree" and $B$ is the event "Bob painted a second tree". We can express this probability in terms of conditional probabilities:
+
+$$
+P(B|A) = \frac{P(B \cap A)}{P(A)}
+$$
+
+We know that $P(A) = 0.91$ and $P(B) = 0.85$. For $P(B \cap A)$ we can use the fact that $B \cap A$ means Bob painted a tree and a second tree, and there is only one way in which this can happen, so $P(B \cap A) = 0.85$.
+
+$$
+P(B|A) = \frac{0.85}{0.91} = 0.93
+$$
+
+### Part (b)
+
+We want to find $P(A \cap B)$, where $A$ is the event "Bob painted a cabin", $B$ is the event "The cabin is on a lake". We can express this probability in terms of conditional probabilities:
+
+$$
+P(A \cap B) = P(A)P(B|A)
+$$
+
+We know that $P(A) = 0.18$ and $P(B|A) = 0.35$, so we can calculate $P(A \cap B)$ as follows:
+
+$$
+P(A \cap B) = 0.18 \cdot 0.35 = 0.063
+$$
+
+## Problem 2.29
+
+**Ultimate frisbee players are so poor they don’t own coins. So, team captains decide which team will play offense first by flipping frisbees before the start of the game. Rather than flip one frisbee and call a side, each team captain flips a frisbee and one captain calls whether the two frisbees will land on the same side, or on different sides. Presumably, they do this instead of just flipping one frisbee because a frisbee is not obviously a fair coin - the probability of one side seems likely to be different from the probability of the other side.**
+
+a. Suppose you flip two fair coins. What is the probability they show different sides?
+b. Suppose two captains flip frisbees. Assume the probability that a frisbee lands convex side up is $p$. Compute the probability (in terms of $p$) that the two frisbees match.
+c. Make a graph of the probability of a match in terms of $p$.
+d. One Reddit user flipped a frisbee 800 times and found that in practice, the convex side lands up 45% of the time. When captains flip, what is the probability of “same?” What is the probability of “different?”
+e. What advice would you give to an ultimate frisbee team captain?
+f. Is the two-frisbee flip better than a single-frisbee flip for deciding the offense?
+
+### Part (a)
+
+The space of outcomes for flipping two fair coins is:
+$$
+S = \{HH, HT, TH, TT\}
+$$.
+
+The event "the two coins show different sides" is:
+
+$$
+E = \{HT, TH\}
+$$ 
+ 
+ so the probability of this event is:
+ 
+$$
+ P(E) = \frac{2}{4} = \frac{1}{2}
+$$
+
+### Part (b)
+
+The probability that a frisbee lands convex side up is $p$ and the probability that it lands concave side up is $1-p$. So the probability of the both frisbee match is:
+
+$$
+P(E) = p^2 + (1-p)^2
+$$
+
+### Part (c)
+
+```{r}
+p <- seq(0, 1, length.out = 100)
+prob <- p^2 + (1-p)^2
+plot(p, prob, type = "l", xlab = "p", ylab = "probability of match")
+```
+
+### Part (d)
+
+The probability of a match is $p^2 + (1-p)^2$, so the probability of a non-match is $1 - p^2 - (1-p)^2$. If the probability of a convex side up is $0.45$, then the probability of a match is:
+
+$$
+P(\text{match}) = 0.45^2 + (1-0.45)^2 = 0.505
+$$
+
+and the probability of a non-match is:
+
+$$
+P(\text{non-match}) = 1 - 0.505 = 0.495
+$$
+
+### Part (e)
+
+ Since the probability of match is slightly higher than the probability of non-match, the captains should call "same" (assuming that they want to play offence first) but the difference is small enough that it doesn't really matter.
+
+### Part (f)
+
+The two-frisbee flip is better than a single-frisbee flip for deciding the offense because the probability of match or non-match is almost a fair coin flip, whereas the probability of a single frisbee is more bias towards the concav side.
+
+## Problem 2.30
+
+**Suppose there is a new test that detects whether people have a disease. If a person has the disease, then the test correctly identifies that person as being sick 99.9% of the time (sensitivity of the test). If a person does not have the disease, then the test correctly identifies the person as being well 97% of the time (specificity of the test). Suppose that 2% of the population has the disease. Find the probability that a randomly selected person has the disease given that they test positive for the disease.**
+
+We can use Bayes' theorem to solve this problem:
+
+$$
+P(H|E) = \frac{P(E|H)P(H)}{P(E)}
+$$
+
+$P(E)$ is more conveniently expressed as:
+
+$$
+P(E) = P(E|H)P(H) + P(E|\neg H)P(\neg H)
+$$
+
+We know that $P(H) = 0.02$, $P(\neg H) = 0.98$, $P(E|H) = 0.999$ and $P(E|\neg H) = 0.03$ (false positives). Then We can calculate $P(H|E)$ as follows:
+
+$$
+P(H|E) = \frac{0.999 \cdot 0.02}{0.999 \cdot 0.02 + 0.03 \cdot 0.98} = 0.40
+$$
+
+## Problem 2.31
+
+**Suppose that there are two boxes containing marbles. Box 1 contains 3 red and 4 blue marbles. Box 2 contains 2 red and 5 blue marbles. A single die is tossed, and if the result is 1 or 2, then a marble is drawn from box 1. Otherwise, a marble is drawn from box 2.**
+
+![balls](./images/boxballs1.png){fig-align="center"}
+
+a. What is the probability that the marble drawn is red?
+b. What is the probability that the marble came from box 1 given that the marble is red?
+
+### Part (a)
+
+We can define the following events:
+
+- $A$: the die is 1 or 2
+- $B$: the die is 3, 4, 5 or 6
+- $C$: the marble is red
+- $D$: the marble is blue
+
+We can calculate the probability of the marble using the law of total being red as follows:
+
+$$
+P(C) = P(C|A)P(A) + P(C|B)P(B)
+$$
+
+We know that $P(A)=\frac{2}{6}$, $P(B)=\frac{4}{6}$, $P(C|A)=\frac{3}{7}$ and $P(C|B)=\frac{2}{7}$. So we can calculate $P(C)$ as follows:
+
+$$
+P(C) = \frac{3}{7} \cdot \frac{2}{6} + \frac{2}{7} \cdot \frac{4}{6} = \frac{11}{42} = 0.26
+$$
+
+### Part (b)
+
+We can use Bayes' theorem to calculate the probability that the marble came from box 1 given that the marble is red:
+
+$$
+P(A|C) = \frac{P(C|A)P(A)}{P(C)}
+$$
+
+Using the values from part (a), we can calculate $P(A|C)$ as follows:
+
+$$
+P(A|C) = \frac{\frac{3}{7} \cdot \frac{2}{6}}{\frac{11}{42}} = \frac{6}{11} = 0.54
+$$
+
+## Problem 2.32
+
+**Suppose that you have 10 boxes, numbered 0-9. Box $i$ contains $i$ marbles, and $9-i$ blue marbles.** 
+
+![balls](./images/boxballs2.png){fig-align="center"}
+
+**You perform the following experiment. Pick a box at random, draw a marble and record its color. Replace the marble back in the box, and draw another marble from the same box and record its color. Replace the marble back in the box, and draw another marble from the same box and record its color. So, all three marbles are drawn from the same box.**
+
+a. If you draw three consecutive red marbles, what is the probability that a fourth marble drawn from the same box will also be red?
+b. If you draw three consecutive red marbles, what is the probability that you chose box 9?
+
+### Part (a)
+ 
+Let's first calculate the probability of drawing three consecutive red marbles from a box. We will use conditional probability to solve this problem. Let's denote the event of drawing three consecutive red marbles as $R_{3}$, and the event of choosing a box $i$ as $B_{i}$.
+
+The probability of drawing three consecutive red marbles can be expressed as follows:
+
+$$
+P(R_{3}) = \sum_{i=0}^{9} P(R_{3}|B_{i})P(B_{i})
+$$
+
+Since we have 10 boxes (numbered 0-9) and we select a box at random, the probability of choosing any box $i$ is:
+
+$$
+P(B_{i}) = \frac{1}{10}
+$$
+
+Now, let's calculate the probability of drawing three consecutive red marbles given that we have chosen box $i$ represented by $P(R_{3} | B_{i})$. The probability of drawing a red marble on box $i$ is $\frac{i}{9}$. Since we replace the marble after drawing, the probability remains the same for each draw. Therefore, the probability of drawing three consecutive red marbles from box $i$ is:
+
+$$
+P(R_{3} | B_{i}) = \left(\frac{i}{9}\right)^{3}
+$$
+
+Now, we can calculate the probability of drawing three consecutive red marbles (we can trivially discard $i=0$):
+
+$$
+P(R_{3}) = \frac{1}{10}  \cdot \sum_{i=1}^{9} \left(\frac{i}{9}\right)^{3} = 0.277
+$$
+
+Now, we want to calculate the probability that the fourth marble drawn from the same box will also be red, given that we have drawn three consecutive red marbles. Let's denote this event as $R_{4}$ (for the fourth red marble). We need to compute $P(R_{4} | R_{3})$.
+
+We can apply Bayes' theorem:
+
+$$
+P(R_{4} | R_{3}) = \frac{P(R_{3} | R_{4}) \cdot P(R_{4})}{P(R_{3})}
+$$
+
+We know that $P(R_{3}) = 0.277$, and $P(R_{3} | R_{4}) = 1$ (because the probability of getting 3 red marbles consecutive given that we have 4 red marbles consecutive is 1). Therefore, the only missing part is $P(R_{4})$ wich can be calculated as follows:
+
+$$
+P(R_{4}) = \sum_{i=1}^{9} P(R_{4} | B_{i})P(B_{i})
+$$
+
+$$
+P(R_{4}) = \frac{1}{10} \cdot \sum_{i=1}^{9} \left(\frac{i}{9}\right)^4 = 0.233
+$$
+
+finally, we can calculate $P(R_{4} | R_{3})$:
+
+$$
+P(R_{4} | R_{3}) = \frac{1 \cdot 0.233}{0.277} = 0.84
+$$
+
+We can simulate this experiment as follow:
+
+```{r}
+event_a_and_b <- replicate(100000, {
+    box <- sample(x = 0:9, size =1)
+    marbles <- sample(c(rep("red", box), rep("blue", 9 - box)), 4, replace = TRUE)
+    all(marbles == "red")
+})
+
+event_b <- replicate(100000, {
+    box <- sample(x = 0:9, size =1)
+    marbles <- sample(c(rep("red", box), rep("blue", 9 - box)), 3, replace = TRUE)
+    all(marbles == "red")
+})
+
+mean(event_a_and_b) / mean(event_b)
+```
+
+### Part (b)
+
+Let's denote the event of choosing box 9 as $B_{9}$. We want to calculate $P(B_{9} | R_{3})$. We can apply Bayes' theorem:
+
+$$
+P(B_{9} | R_{3}) = \frac{P(R_{3} | B_{9}) \cdot P(B_{9})}{P(R_{3})}
+$$
+
+The probability of getting three consecutive red marbles given that we have chosen box 9 is $P(R_{3} | B_{9}) = \left(\frac{9}{9}\right)^3 = 1$. The probability of choosing box 9 is $P(B_{9}) = \frac{1}{10}$. The probability of getting three consecutive red marbles is $P(R_{3}) = 0.277$. Therefore, we can calculate $P(B_{9} | R_{3})$ as follows:
+
+$$
+P(B_{9} | R_{3}) = \frac{1 \cdot \frac{1}{10}}{0.277} = 0.36
+$$
+
+We can simulate this experiment as follow:
+
+```{r}
+event_a_and_b <- replicate(100000, {
+    box <- sample(x = 0:9, size =1)
+    marbles <- sample(c(rep("red", box), rep("blue", 9 - box)), 3, replace = TRUE)
+    all(marbles == "red") && box == 9
+})
+
+event_b <- replicate(100000, {
+    box <- sample(x = 0:9, size =1)
+    marbles <- sample(c(rep("red", box), rep("blue", 9 - box)), 3, replace = TRUE)
+    all(marbles == "red")
+})
+
+mean(event_a_and_b) / mean(event_b)
+```
+
+## Problem 2.33
+
+**How many ways are there of getting 4 heads when tossing 10 coins?**
+
+using the binomial coefficient:
+
+$$
+{10 \choose 4} = \frac{10!}{4! \cdot 6!} = 210
+$$
+
+## Problem 2.34
+
+**How many ways are there of getting 4 heads when tossing 10 coins, assuming that the 4th head came on the 10th toss?**
+
+If we know that the 4th head came on the 10th toss, then we must have gotten exactly 3 heads in the first 9 tosses. We can count the number of ways to get 3 heads in 9 tosses using the binomial coefficient:
+
+$$
+{9 \choose 3} = \frac{9!}{3! \cdot 6!} = 84
+$$
+
+## Problem 2.35
+
+Six standard six-sided dice are rolled.
+
+a. How many outcomes are there?
+b. How many outcomes are there such that all of the dice are different numbers?
+c. What is the probability that you obtain six different numbers when you roll six dice?
+
+### Part (a)
+
+The number of outcomes is $6^{6} = 46656$
+
+### Part (b)
+
+The first die can be any of the six numbers. The second die must be one of the remaining five numbers (since we can't repeat the number from the first die), the third die must be one of the remaining four numbers, and so on. Therefore, the number of outcomes in which all six dice are different is:
+
+The number of outcomes is $6 \cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 720$
+
+### Part (c)
+
+The probability of getting six different numbers when rolling six dice is:
+
+$$
+P(E) = \frac{720}{46656} = 0.0154
+$$
+
+## Problem 2.36
+
+**A box contains 5 red marbles and 5 blue marbles. Six marbles are drawn without replacement.**
+
+a. How many ways are there of drawing the 6 marbles? Assume that getting all 5 red marbles and the first blue marble is different than getting all 5 red marbles and the second blue marble, for example.
+b. How many ways are there of drawing 4 red marbles and 2 blue marbles?
+c. What is the probability of drawing 4 red marbles and 2 blue marbles?
+
+### Part (a)
+
+The number of ways of drawing 6 marbles is:
+
+$$
+{6 \choose 10} = \frac{10!}{6! \cdot 4!} = 210
+$$
+
+### Part (b)
+
+The number of ways of drawing 4 red marbles and 2 blue marbles is:
+
+$$
+{5 \choose 4} \cdot {5 \choose 2} = \frac{5!}{4! \cdot 1!} \cdot \frac{5!}{2! \cdot 3!} = 50
+$$
+
+### Part (c)
+
+The probability of drawing 4 red marbles and 2 blue marbles is:
+
+$$
+P(E) = \frac{50}{210} = 0.238
+$$
+
+We can simulate this experiment as follow:
+
+```{r}
+event <- replicate(100000, {
+    marbles <- sample(c(rep("red", 5), rep("blue", 5)), 6, replace = FALSE)
+    sum(marbles == "red") == 4 && sum(marbles == "blue") == 2
+})
+
+mean(event)
+```
