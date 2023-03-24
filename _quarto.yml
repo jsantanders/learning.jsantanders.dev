@@ -6,6 +6,14 @@ execute:
   freeze: auto
   cache: true
 
+website:
+  site-url: https://learning.jsantanders.dev
+  google-analytics: "G-BL39G9942Y"
+  cookie-consent: true
+  twitter-card:
+    creator: "@jsantanders"
+    site: "learning.jsantanders.dev"
+
 book:
   title: "Book's problems and solutions"
   reader-mode: true
@@ -28,6 +36,7 @@ book:
     - part: Probability, Statistics, and Data
       chapters:
         - probability-statistics-and-data/probability.qmd
+        - probability-statistics-and-data/discrete-random-variables.qmd
 
 format:
   bookup-html:
