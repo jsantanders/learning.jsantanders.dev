@@ -5,7 +5,7 @@ date: "2023-02-15"
 format:
   bookup-html:
     embed-fonts: false
-toc: true
+toc: false
 ---
 
 ## Chapter 02: Probability

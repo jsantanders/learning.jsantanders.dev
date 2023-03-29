@@ -1,11 +1,11 @@
 ---
 title: ""
 author: ""
-date: "2023-03-15"
+date: "2023-03-19"
 format:
   bookup-html:
     embed-fonts: false
-toc: true
+toc: false
 ---
 
 ## Chapter 03: Discrete Random Variables
@@ -238,3 +238,197 @@ dice_1 <- sample(1:6, size = 10000, replace = TRUE)
 dice_2 <- sample(1:6, size = 10000, replace = TRUE)
 mean(dice_1 * dice_2)
 ```
+
+
+## Problem 3.8
+
+**Suppose that a hat contains slips of papers containing the numbers 1, 2, and 3. Two slips of paper are drawn without replacement. Calculate the expected value of the product of the numbers on the slips of paper.**
+
+We need to find the pmf:
+
+| Product | Outcomes       | Probability |
+|---------|----------------|-------------|
+| 2       | (2, 1), (1, 2) | 2/6         |
+| 3       | (3, 1), (1, 3) | 2/6         |
+| 6       | (3, 2), (2, 3) | 2/6         |
+
+And then we can calculate the expected value:
+
+$$
+E[x]  = 2 \frac{2}{6} + 3 \frac{2}{6} + 6 \frac{2}{6} = \frac{22}{6}
+$$
+
+We can also use simulation to confirm our answer:
+
+```{r}
+event <- replicate(100000, {
+  hat <- sample(1:3, size = 2, replace = FALSE)
+  prod(hat)
+})
+mean(event)
+```
+
+## Problem 3.9
+
+**Pick an integer from 0 to 999 with all possible numbers equally likely. What is the expected number of digits in your number?**
+
+We need to find the pmf:
+
+| Number of digits | Outcomes       | Probability |
+|------------------|----------------|-------------|
+| 1                | 0-9            | 10/1000     |
+| 2                | 10-99          | 90/1000     |
+| 3                | 100-999        | 900/1000    |
+
+And then we can calculate the expected value:
+
+$$
+E[x] = 1 \frac{10}{1000} + 2 \frac{90}{1000} + 3 \frac{900}{1000} = 2.89
+$$
+
+We can also use simulation to confirm our answer:
+
+```{r}
+number <- sample(0:999, size = 100000, replace = TRUE)
+mean(nchar(as.character(number)))
+```
+
+## Problem 3.10
+
+**In the summer of 2020, the U.S. was considering pooled testing of COVID-19. This problem explores the math behind pooled testing. Since the availability of tests is limited, the testing center proposes the following pooled testing technique:**
+
+* Two samples are randomly selected and combined. The combined sample is tested.
+* If the combined sample tests negative, then both people are assumed negative.
+* If the combined sample tests positive, then both people need to be retested for the disease.
+
+Suppose in a certain population, 5% of the people being tested for COVID-19 actually have COVID-19. Let $X$ be the total number of tests that are run in order to test two randomly selected people.
+
+a. What is the pmf of $X$?
+b. What is the expected value of $X$?
+c. Repeat the above, but imagine that three samples are combined, and let $Y$ be the total number of tests that are run in order to test three randomly selected people. If the pooled test is positive, then all three people need to be retested individually.
+d. If your only concern is to minimize the expected number of tests given to the population, which technique would you recommend?
+
+### Part (a)
+
+To find the pmf of $X$, we need to determine the probability of each possible value of $X$:
+
+First, consider the case where neither of the two individuals selected has COVID-19. The probability that the first individual selected does not have COVID-19 is 0.95, and the probability that the second individual selected does not have COVID-19, given that the first individual does not have COVID-19, is also 0.95. Therefore, the probability that neither individual has COVID-19 is:
+
+$$
+P = 0.95 \cdot 0.95 = 0.9025
+$$
+
+In this case, only one test is needed, since the combined sample will test negative and both individuals can be assumed negative. So, in this case, X = 1 with probability 0.9025.
+
+Now, consider the case where one or both of the individuals selected has COVID-19. The probability that the first individual selected has COVID-19 is 0.05, and the probability that the second individual selected has COVID-19, given that the first individual does not have COVID-19, is also 0.05. Therefore, the probability that at least one individual has COVID-19 is:
+
+$$
+P = 1 - 0.9025 = 0.0975
+$$
+
+In this case, the combined sample will test positive, and both individuals will need to be retested. Since each individual will need to be tested once more, a total of three tests will be needed. So, in this case, X = 3 with probability 0.0975.
+
+| X  | Probability   |
+|----|---------------|
+| 1  | 0.9025        |
+| 3  | 0.0975        |
+
+### Part (b)
+
+$$
+E[x] = 1 \cdot 0.9025 + 3 \cdot 0.0975 = 1.195
+$$
+
+### Part (c)
+
+To find the pmf of $Y$, we need to determine the probability of each possible value of $Y$:
+
+$$
+P = 0.95 \cdot 0.95 \cdot 0.95 = 0.857375
+$$
+
+In this case, only one test is needed, since the combined sample will test negative and all three individuals can be assumed negative. So, in this case, Y = 1 with probability 0.857375.
+
+Now consider the case where one or more of the individuals selected has COVID-19. The probability that at least one individual has COVID-19 is:
+
+$$
+P = 1 - 0.857375 = 0.142625
+$$
+
+In this case, the combined sample will test positive, and all three individuals will need to be retested. Since each individual will need to be tested once more, a total of four tests will be needed. So, in this case, Y = 4 with probability 0.142625.
+
+| Y  | Probability   |
+|----|---------------|
+| 1  | 0.857375      |
+| 4  | 0.142625      |
+
+And the expected value of $Y$ is:
+
+$$
+E[y] = 1 \cdot 0.857375 + 4 \cdot 0.142625 = 1.442
+$$
+
+### Part (d)
+
+Since the expected value of $X$ is 1.195 and the expected value of $Y$ is 1.442, we would recommend the technique that minimizes the expected number of tests, which is the technique that tests two samples at a time.
+
+
+## Problem 3.11
+
+**A roulette wheel has 38 slots and a ball that rolls until it falls into one of the slots, all of which are equally likely. Eighteen slots are black numbers, eighteen are red numbers, and two are green zeros. If you bet on "red" and the ball lands in a red slot, the casino pays you your bet; otherwise, the casino wins your bet.**
+
+a. What is the expected value of a \$1 bet on red?
+b. Suppose you bet \$1 on red, and if you win you “let it ride” and bet $2 on red. What is the expected value of this plan?
+
+### Part (a)
+
+We need to find the probability of winning, which is the probability that the ball lands in a red slot. There are 18 red slots, so the probability of winning is:
+
+$$
+P = \frac{18}{38} = 0.4736
+$$
+
+The pmf of the random variable $X$ is:
+
+| X   | Probability   |
+|-----|---------------|
+| -1  | 0.5263        |
+|  1  | 0.4736        |
+
+And the expected value of $X$ is:
+
+$$
+E[x] = -1 \cdot 0.5263 + 1 \cdot 0.4736 = -0.0527
+$$
+
+### Part (b)
+
+Under this betting plan, there are three possible outcomes:
+
+1. The ball lands on black or green on the first spin, and you lose \$1.
+2. The ball lands on red on the first spin, and you win $1. Then, the ball lands on black or green on the second spin, and you lose \$2.
+3. The ball lands on red on both spins, and you win $1 on the first spin and \$2 on the second spin.
+
+The probability of each of these outcomes can be calculated as follows:
+
+1. Probability of losing on the first spin: $\frac{20}{38} = 0.5263$
+2. Probability of winning on the first spin and losing on the second spin $\frac{18}{38} \cdot \frac{20}{38} = 0.2493$
+3. Probability of winning on both spins $\frac{18}{38} \cdot \frac{18}{38} = 0.2243$
+
+$$
+P = \frac{18}{38} \cdot \frac{18}{38} = 0.2243
+$$
+
+The pmf of the random variable $X$ is:
+
+| X   | Probability   |
+|-----|---------------|
+| -2  | 0.2493        |
+| -1  | 0.5263        |
+|  3  | 0.2243        |
+
+And the expected value of $X$ is:
+
+$$
+E[x] = -2 \cdot 0.2493 - 1 \cdot 0.5263 + 3 \cdot 0.2243 = -0.352
+$$
