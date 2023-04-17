@@ -45,6 +45,8 @@ $$
 
 ### Part (b)
 
+We can use the union rule as:
+
 $$
 P(X \geq 2) = P(X = 2) + P(X = 3)
 $$
@@ -61,11 +63,13 @@ $$
 P(X \geq 2 | X \geq 1) = \frac{P(X \geq 2 \cap X \geq 1)}{P(X \geq 1)}
 $$
 
-Since $X \geq 1$ is a subset of $X \geq 2$, we have that $P(X \geq 2 \cap X \geq 1) = P(X \geq 2)$.
+Since $X \geq 2$ is a subset of $X \geq 1$, we have that:
 
 $$
-P(X \geq 2 | X \geq 1) = \frac{P(X \geq 2)}{P(X \geq 1)}
+P(X \geq 2 \cap X \geq 1) = P(X \geq 2)
 $$
+
+And Finally:
 
 $$
 P(X \geq 2 | X \geq 1) = \frac{\frac{1}{4}}{\frac{3}{4}} = \frac{1}{3}
@@ -73,11 +77,13 @@ $$
 
 ### Part (d)
 
+We can use the union rule as:
+
 $$
 P(X \geq 1 \cup X \geq 2) = P(X \geq 1) + P(X \geq 2) \\ - P(X \geq 1 \cap X \geq 2)
 $$
 
-Again, Since $X \geq 1$ is a subset of $X \geq 2$, we have that $P(X \geq 2 \cap X \geq 1) = P(X \geq 2)$.
+Then, similarly to part (c), we can use the intersection rule as:
 
 $$
 P(X \geq 1 \cap X \geq 2) = (X \geq 2)
@@ -92,8 +98,6 @@ And finally:
 $$
 P(X \geq 1 \cup X \geq 2) = \frac{3}{4} + \frac{1}{4} - \frac{1}{4} = \frac{3}{4}
 $$
-
-Wich make sense, since $P(X \geq 1 \cup X \geq 2) = P(X \geq 1)$
 
 ## Problem 3.2
 
@@ -320,8 +324,7 @@ $$
 
 In this case, only one test is needed, since the combined sample will test negative and both individuals can be assumed negative. So, in this case, X = 1 with probability 0.9025.
 
-Now, consider the case where one or both of the individuals selected has COVID-19. The probability that the first individual selected has COVID-19 is 0.05, and the probability that the second individual selected has COVID-19, given that the first individual does not have COVID-19, is also 0.05. Therefore, the probability that at least one individual has COVID-19 is:
-
+Now, consider the case where one or both of the individuals selected has COVID-19. The probability that at least one has COVID-19 is the complement of the probability that neither has COVID-19:
 $$
 P = 1 - 0.9025 = 0.0975
 $$
@@ -432,3 +435,305 @@ And the expected value of $X$ is:
 $$
 E[x] = -2 \cdot 0.2493 - 1 \cdot 0.5263 + 3 \cdot 0.2243 = -0.352
 $$
+
+## Problem 3.12
+
+**One (questionable) roulette strategy is called bet doubling: You bet \$1 on red, and if you win, you pocket the \$1. If you lose, you double your bet so you are now betting \$2 on red, but have lost \$1. If you win, you win \$2 for a \$1 profit, which you pocket. If you lose again, you double your bet to \$4 (having already lost \$3). Again, if you win, you have \$1 profit, and if you lose, you double your bet again. This guarantees you will win \$1, unless you run out of money to keep doubling your bet.**
+
+a. Say you start with a bankroll of \$127. How many bets can you lose in a row without losing your bankroll?
+b. If you have a \$127 bankroll, what is the probability that bet doubling wins you \$1?
+c. What is the expected value of the bet doubling strategy with a \$127 bankroll?
+d. If you play the bet doubling strategy with a \$127 bankroll, how many times can you expect to play before you lose your bankroll?
+
+### Part (a)
+
+The maximum number of bets you can lose in a row without losing your bankroll is 7. 
+
+- Bet 1: Lose \$1, bankroll is now \$126
+- Bet 2: Lose \$2, bankroll is now \$124
+- Bet 3: Lose \$4, bankroll is now \$120
+- Bet 4: Lose \$8, bankroll is now \$112
+- Bet 5: Lose \$16, bankroll is now \$96
+- Bet 6: Lose \$32, bankroll is now \$64
+- Bet 7: Lose \$64, bankroll is now \$0
+
+### part (b)
+
+The proability of losing all 7 bets is $(\frac{20}{38})^7$. Thus the probability of winning at least once is:
+
+$$
+P = 1 - (\frac{20}{38})^7 = 0.9881
+$$
+
+### Part (c)
+
+Based on the previous part, we can built the pmf of the random variable $X$:
+
+| X      | Probability   |
+|--------|---------------|
+| -127   | 0.0119        |
+|    1   | 0.9881        |
+
+And the expected value of $X$ is:
+
+$$
+E[x] = -127 \cdot 0.0119 + 1 \cdot 0.9881 = - 0.5232
+$$
+
+### Part (d)
+
+we can simulate this in R as follows:
+
+```{r}
+event <- replicate(10000 , {
+  bankroll <- 127
+  num_rounds <- 0
+  nth_bet <- 1
+  while (bankroll > 0) {
+    num_rounds <- num_rounds + 1
+    bet_result <- sample(x = c(0, 1), size = 1, prob = c(20/38, 18/38))
+    if (bet_result == 0) {
+      bankroll <- bankroll - 2^(nth_bet - 1)
+      nth_bet <- nth_bet + 1
+    } else {
+      bankroll <- bankroll + 2^(nth_bet - 1)
+      nth_bet <- 1
+    }
+  }
+  num_rounds
+})
+
+mean(event)
+```
+
+## Problem 3.13
+
+**Flip a fair coin 10 times and let $X$ be the proportion of times that a head is followed by another head. Discard the sequence of ten tosses if you don't obtain a head in the first nine tosses. What is the expected value of $X$? (Note: this is not asking you to estimate the conditional probability of getting heads given that you obtained heads).**
+
+
+Let $X_{j}$ be the indicator random variable of $HH$ appearing at position $j$ for $j = 1, 2, \dots, 9$. These events aren't quite independent from each other, so the binomial random variable does not accurante describe the distribution of $X$. However, we can still use the Binomial random variable to calculate the expected value of $X$, because the expectation is linear. 
+
+Getting two heads in a row has probability equal to  $p = 1/4$. So, we look at $HH$ is our success outcome and the rest $\{HT, TH, TT \}$ consist of the failures outcomes. Since we are discarding the sequence of ten tosses if we don't obtain a head in the first nine tosses, we have $n = 9$ and $p = 1/4$. Thus, the expected value of $X$ is: 
+
+$$
+E[X] = n \cdot p = 9 \cdot \frac{1}{4} = 2.25
+$$
+
+
+## Problem 3.14
+
+**To play the Missouri lottery Pick 3, you choose three digits 0-9 in order. Later, the lottery selects three digits at random, and you win if your choices match the lottery values in some way. Here are some possible bets you can play:**
+
+a. \$1 Straight wins if you correctly guess all three digits, in order. It pays \$600.
+b. \$1 Front Pair wins if you correctly guess the first two digits. It pays \$60.
+c. \$1 Back Pair wins if you correctly guess the last two digits. It pays \$60.
+d. \$6 6-Way Combo wins if the three digits are different and you guess all three in any order. It pays \$600.
+e. \$3 3-Way Combo wins if two of the three digits are the same, and you guess all three in any order. It pays \$600.
+f. \$1 1-Off lets you win if some of your digits are off by 1 (9 and 0 are considered to be one off from each other). If you get the number exactly correct, you win \$300. If you have one digit off by 1, you win \$29. If you have two digits off by 1, you win \$4, and if all three of your digits are off by 1 you win \$9.
+
+**Consider the value of your bet to be your expected winnings per dollar bet. What value do each of these bets have?**
+
+
+### Part (a)
+\$1 Straight wins if you correctly guess all three digits, in order. It pays \$600.
+
+The total amount of money you can win is \$(600 - 1). The total amount of money you can lose is \$1. The proability of winning is $\frac{1}{n} \cdot \frac{1}{n} \cdot \frac{1}{n}$ where $n=10$ and the probability of losing is the complement. Thus, the expected value of this bet is:
+
+$$
+E[X] = (600 - 1) \cdot \frac{1}{1000} - 1 \cdot \left(1 - \frac{1}{1000}\right) = -0.4
+$$
+
+We can also simulate this in R as follows:
+
+```{r}
+event <- replicate(100000 , {
+  my_bet <- sample(x = 0:999, size = 1, replace = TRUE)
+  lottery <- sample(x = 0:999, size = 1, replace = TRUE)
+  if(lottery == my_bet) 599 else -1
+})
+
+mean(event)
+```
+
+### Part (b)
+
+\$1 Front Pair wins if you correctly guess the first two digits. It pays \$60.
+
+Quite similar to the previous part, the total amount of money you can win is \$(60 - 1). The total amount of money you can lose is \$1. The proability of winning is $\frac{1}{n} \cdot \frac{1}{n}$ where $n=10$ and the probability of losing is the complement. Thus, the expected value of this bet is:
+
+$$
+E[X] = (60 - 1) \cdot \frac{1}{100}  - 1 \cdot \left(1 - \frac{1}{100}\right) = -0.4
+$$
+
+We can also simulate this in R as follows:
+
+```{r}
+event <- replicate(100000 , {
+  my_bet <- sample(x = 0:99, size = 1, replace = TRUE)
+  lottery <- sample(x = 0:999, size = 1, replace = TRUE)
+  if(lottery %/% 10 == my_bet) 59 else -1
+})
+
+mean(event)
+```
+
+### Part (c)
+\$1 Back Pair wins if you correctly guess the last two digits. It pays \$60.
+
+It's basically the same. So, let's just calculate the expected value:
+
+$$
+E[X] = (60 - 1) \cdot \frac{1}{100}  - 1 \left(1 - \frac{1}{100}\right) = -0.4
+$$
+
+And just for the record, here is the simulation:
+
+```{r}
+event <- replicate(100000 , {
+  my_bet <- sample(x = 0:99, size = 1, replace = TRUE)
+  lottery <- sample(x = 0:999, size = 1, replace = TRUE)
+  if(lottery %% 100 == my_bet) 59 else -1
+})
+
+mean(event)
+```
+
+### Part (d)
+
+\$6 6-Way Combo wins if the three digits are different and you guess all three in any order. It pays \$600.
+
+With a 3-digit number (All digits different) we have 6 ($3!$) ways to guess all three digits in any order. So it means that the probability of winning is $\frac{6}{1000}$. Thus the expected value is:
+
+$$
+E[X] = (600 - 6) \cdot \frac{6}{1000}  - 6 \cdot \left(1 - \frac{6}{1000}\right) = -2.4
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+  my_bet <- sample(x = 0:9, size = 3, replace = FALSE)
+  lottery <- sample(x = 0:9, size = 3, replace = TRUE)
+  if(all(my_bet %in% lottery)) 594 else -6
+})
+
+mean(event)
+```
+
+### Part (e)
+
+\$3 3-Way Combo wins if two of the three digits are the same, and you guess all three in any order. It pays \$600.
+
+With a 3-digit number where 2 digits are the same we have 3 ways to guess all three digits in any order. So it means that the probability of winning is $\frac{3}{1000}$. Thus the expected value is:
+
+$$
+E[X] = (600 - 3) \cdot \frac{3}{1000}  - 3 \cdot \left(1 - \frac{3}{1000}\right) = -1.2
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+  my_bet <- sample(x = 0:9, size = 2, replace = FALSE)
+  my_bet <- c(my_bet, my_bet[1])
+  lottery <- sample(x = 0:9, size = 3, replace = TRUE)
+  if(identical(sort(my_bet), sort(lottery))) 597 else -3
+})
+
+
+mean(event)
+```
+
+### Part (f)
+
+\$1 1-Off lets you win if some (*of your digits are off by 1 (9 and 0 are considered to be one off from each other). If you get the number exactly correct, you win \$300. If you have one digit off by 1, you win \$29. If you have two digits off by 1, you win \$4, and if all three of your digits are off by 1 you win \$9.
+
+This case is a combination of the previous cases. So, let's calculate the expected value:
+
+$$
+E[X] = (300 - 1) \cdot \frac{1}{1000} + (29 - 1) \cdot \frac{6}{1000} +
+$$
+
+$$
+ (4 - 1) \cdot \frac{6}{1000} + (9 - 1) \cdot \frac{2}{1000} - 1 \cdot \left(1 - \frac{15}{1000}\right) = -0.484
+$$
+
+We can simulate this in R as follow:
+
+```{r}
+event <- replicate(100000, {
+  my_bet <- sample(x = 0:9, size = 3, replace = TRUE)
+  lottery <- sample(x = 0:9, size = 3, replace = TRUE)
+  
+  diff <- abs(my_bet - lottery)
+
+  if(identical(my_bet, lottery)) 299
+  else if(sum(diff) == 1) 28
+  else if(all(diff <= 1) && sum(diff) == 2) 3
+  else if(all(diff <= 1) && sum(diff) == 3) 8
+  else -1
+
+})
+
+mean(event)
+```
+
+## Problem 3.15
+
+**Let $k$ be a positive integer and let $X$ be a random variable with pmf given by $p(x) = 1/k$ for $x=1,...,k$ and $p(x) = 0$ for all other values of $x$. Find $E[X]$**
+
+We can use the definition of the expected value:
+
+$$
+E[X] = \sum_{x=1}^k x \cdot \frac{1}{k} = \frac{1}{k} \sum_{x=1}^k x
+$$
+
+$$
+E[X] =  \frac{1}{k} \cdot \frac{k(k+1)}{2} = \frac{k+1}{2}
+$$
+
+## Problem 3.16
+
+**Suppose you take a 20-question multiple choice test, where each question has four choices. You guess randomly on each question.** 
+
+a. What is your expected score?
+b. What is the probability you get 10 or more questions correct?
+
+### Part (a)
+
+This is a Binomial Random Variable with $n=20$ and $p=0.25$. So, the expected value is: 
+
+$$
+E[X] = np = 20 \cdot 0.25 = 5
+$$
+
+We can simulate this in R as follows:
+
+```{r}
+event <- replicate(100000, {
+  my_answers <- sample(x = 0:3, size = 20, replace = TRUE)
+  correct_answers <- sample(x = 0:3, size = 20, replace = TRUE)
+  sum(my_answers == correct_answers)
+})
+
+mean(event)
+```
+
+But also we can use the built in function `rbinom`:
+
+```{r}
+mean(rbinom(100000, size = 20, prob = 0.25))
+```
+### Part (b)
+
+The probability of getting 10 or more questions correct is:
+
+$$
+P(X \geq 10) = 1 - P(X < 10) = 1 - \sum_{x=0}^{9} \binom{20}{x} \cdot 0.25^x \cdot 0.75^{20-x}
+$$
+
+The calcs are quite tedious for this one, so lets go stright to the code:
+
+```{r}
+1 - sum(dbinom(0:9, size = 20, prob = 0.25))
+```
